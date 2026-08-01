@@ -10,6 +10,7 @@ public class InitCommand {
         .skunk/
             objects/
             refs/
+                heads/
             HEAD
     
     The HEAD file should contain:
@@ -19,14 +20,24 @@ public class InitCommand {
 
         try {
 
-            Path gitDirectory = Path.of(".skunk");
+            Path root = Path.of(".skunk");
+            Path objects = root.resolve("objects");
+            Path refs = root.resolve("refs");
+            Path heads = refs.resolve("heads");
+            Path headFile = root.resolve("HEAD");
 
-            Files.createDirectories(gitDirectory);
+            Files.createDirectories(objects);
+            Files.createDirectories(heads);
 
-            System.out.println("Repository created!"); 
+            Files.writeString(headFile, "ref: refs/heads/main\n");
+
+            System.out.println("Initialised empty Skunk repository :)");
+
         } catch (IOException e) {
 
             System.out.println("Failed to create repository.");
+            e.printStackTrace();
+
         }
 
     } 
