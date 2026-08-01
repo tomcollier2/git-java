@@ -38,35 +38,50 @@ public class GitObject {
     
     }
 
-    public static GitObject parse(byte[] object) {
+    public static GitObject parse(byte[] rawObject) {
 
         int index = 0;
 
-        while (object[index] != ' ') {
+        while (rawObject[index] != ' ') {
             index++;
         }
 
-        String typeString = new String(object, 0, index);
+        String typeString = new String(rawObject, 0, index);
+        int lengthStart = index + 1;
 
         index++;
 
-        while (object[index] != 0) {
+        while (index < rawObject.length && rawObject[index] != 0) {
             index++;
         }
 
+        if (index == rawObject.length) {
+            throw new IllegalArgumentException(
+                "Malformed Git object."
+            );
+        }
+
+        String length = new String(rawObject, lengthStart, index - lengthStart);
+
         index++;
 
-        byte[] contents = new byte[object.length - index];
+        byte[] contents = new byte[rawObject.length - index];
 
-        System.arraycopy(object, index, contents, 0, contents.length);
+        System.arraycopy(rawObject, index, contents, 0, contents.length);
 
-        return switch (typeString) {
+        if (Integer.parseInt(length) != contents.length) { 
+            throw new IllegalArgumentException("Object size does not match header."); 
+        }
 
-            case "blob" -> Blob.fromBytes(contents);
+        ObjectType type = ObjectType.valueOf(typeString.toUpperCase());
+
+        return switch (type) {
+
+            case BLOB -> Blob.fromBytes(contents);
 
             default ->
                     throw new IllegalArgumentException(
-                            "Unsupported object type: " + typeString
+                            "Unsupported object type"
                     );
         };
     }
