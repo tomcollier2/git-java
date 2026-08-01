@@ -51,7 +51,26 @@ public class CatFileCommand {
             byte[] object =
                     repository.getObjectStore().read(args[1]);
 
-            System.out.println(new String(object));
+            int start = 0;
+
+            while (object[start] != 0) {
+                start++;
+            }
+
+            start++;
+
+            byte[] contents =
+                    new byte[object.length - start];
+
+            System.arraycopy(
+                    object,
+                    start,
+                    contents,
+                    0,
+                    contents.length
+            );
+
+            System.out.println(new String(contents));
 
         } catch (Exception e) {
 
