@@ -19,6 +19,11 @@ public class HashObjectOptions {
                     break;
 
                 case "-t":
+                    if (++i >= args.length) {
+                        throw new IllegalArgumentException(
+                            "Missing type after -t"
+                        );
+                    }
                     type = parseType(args[++i]);
                     break;
 
