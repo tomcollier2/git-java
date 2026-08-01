@@ -32,7 +32,16 @@ public class HashObjectCommand {
 
             byte[] contents = Files.readAllBytes(file);
 
-            System.out.println(new String(contents));
+            String header = "blob " + contents.length  + "\0";
+            byte[] headerBytes = header.getBytes();
+
+            byte[] blob = new byte[headerBytes.length + contents.length];
+
+            // Copy both header and contents into a new byte array.
+            System.arraycopy(headerBytes, 0, blob, 0, headerBytes.length);
+            System.arraycopy(contents, 0, blob, headerBytes.length, contents.length);
+
+            System.out.println(new String(blob));
 
         } catch (IOException e) {
 
