@@ -1,11 +1,9 @@
 package org.skunk.commands;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.nio.file.Path;
 
-import org.skunk.util.Compression;
-import org.skunk.util.SHA1;
+import org.skunk.git.Blob;
+import org.skunk.git.ObjectStore;
 
 public class HashObjectCommand {
 
@@ -46,37 +44,18 @@ public class HashObjectCommand {
 
         try {
 
-            byte[] contents = Files.readAllBytes(file);
+            Blob blob = Blob.fromFile(Path.of(args[1]));
 
-            String header = "blob " + contents.length  + "\0";
-            byte[] headerBytes = header.getBytes();
+            ObjectStore store =
+                    new ObjectStore(Path.of(".skunk"));
 
-            byte[] blob = new byte[headerBytes.length + contents.length];
-
-            // Copy both header and contents into a new byte array.
-            System.arraycopy(headerBytes, 0, blob, 0, headerBytes.length);
-            System.arraycopy(contents, 0, blob, headerBytes.length, contents.length);
-
-            String hash = SHA1.hash(blob);
-            byte[] compressed = Compression.compress(blob);
-
-            // Determine object location
-            String directory = hash.substring(0, 2);
-            String filename = hash.substring(2);
-
-            // Create directories
-            Path objectDirectory = Path.of(".skunk", "objects", directory);
-
-            Files.createDirectories(objectDirectory);
-            // Write file
-            Path objectFile = objectDirectory.resolve(filename);
-            Files.write(objectFile, compressed);
+            String hash = store.write(blob);
 
             System.out.println(hash);
 
-        } catch (IOException e) {
+        } catch (Exception e) {
 
-            System.out.println("Unable to read file.");
+            e.printStackTrace();
 
         }
 
