@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
+import org.skunk.util.SHA1;
+
 public class HashObjectCommand {
 
     /*
@@ -41,7 +43,9 @@ public class HashObjectCommand {
             System.arraycopy(headerBytes, 0, blob, 0, headerBytes.length);
             System.arraycopy(contents, 0, blob, headerBytes.length, contents.length);
 
-            System.out.println(new String(blob));
+            String hash = SHA1.hash(blob);
+
+            System.out.println(hash);
 
         } catch (IOException e) {
 
