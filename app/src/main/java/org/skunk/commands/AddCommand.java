@@ -2,8 +2,6 @@ package org.skunk.commands;
 
 import java.nio.file.Path;
 
-import org.skunk.git.Blob;
-import org.skunk.git.IndexEntry;
 import org.skunk.git.Repository;
 
 public class AddCommand {
@@ -21,18 +19,7 @@ public class AddCommand {
 
             Repository repository = Repository.open();
 
-            Path file = Path.of(args[1]);
-
-            Blob blob = Blob.fromFile(file);
-
-            String hash =
-                    repository
-                    .getObjectStore()
-                    .hash(blob, true);
-
-            repository
-                    .getIndex()
-                    .add(new IndexEntry(hash, file));
+            repository.add(Path.of(args[1]));
 
         }
         catch (Exception e) {

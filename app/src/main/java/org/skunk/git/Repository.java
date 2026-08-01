@@ -1,5 +1,6 @@
 package org.skunk.git;
 
+import java.io.IOException;
 import java.nio.file.Path;
 
 public class Repository {
@@ -20,6 +21,17 @@ public class Repository {
 
     public static Repository open() {
         return new Repository(Path.of(".skunk"));
+    }
+
+    public void add(Path file) throws IOException {
+
+        Blob blob = Blob.fromFile(file);
+
+        String hash =
+                objectStore.hash(blob, true);
+
+        index.add(new IndexEntry(hash, file));
+
     }
 
     public ObjectStore getObjectStore() {
