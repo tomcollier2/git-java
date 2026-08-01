@@ -45,7 +45,7 @@ public class HashObjectCommand {
 
             Repository repository = new Repository();
 
-            String hash = repository.getObjectStore().write(blob, options.getWrite());
+            String hash = repository.getObjectStore().storeObject(blob, options.getWrite());
 
             System.out.println(hash);
 

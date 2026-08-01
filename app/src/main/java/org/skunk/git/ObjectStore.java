@@ -15,7 +15,7 @@ public class ObjectStore {
         this.objects = repositoryRoot.resolve("objects");
     }
 
-    public String write(GitObject object, boolean write) throws IOException {
+    public String storeObject(GitObject object, boolean write) throws IOException {
 
         byte[] data = object.getData();
 

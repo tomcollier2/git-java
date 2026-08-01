@@ -12,33 +12,23 @@ public class HashObjectOptions {
     
     public HashObjectOptions(String[] args) { 
 
-        if (args.length == 2) {
+        for (int i = 1; i < args.length; i++) {
+            switch (args[i]) {
+                case "-w":
+                    write = true;
+                    break;
 
-            file = Path.of(args[1]); 
+                case "-t":
+                    type = parseType(args[++i]);
+                    break;
 
-        } else if (args.length == 3 && args[1].equals("-w")) {
-
-            write = true; 
-            file = Path.of(args[2]); 
-
-        } else if (args.length == 4 && args[1].equals("-t")) { 
-
-            parseType(args[2]); 
-            if (type != null) { 
-                file = Path.of(args[3]); 
-            } 
-
-        } else if (args.length == 5 && args[1].equals("-t") && args[3].equals("-w")) { 
-
-            parseType(args[2]); 
-            if (type != null) { 
-                file = Path.of(args[4]); 
-                write = true; 
-            } 
+                default:
+                    file = Path.of(args[i]);
+            }
         } 
     }
     
-    private void parseType(String s) { 
+    private Type parseType(String s) { 
         type = switch (s) {
             case "commit" -> Type.COMMIT;
             case "tree" -> Type.TREE;
@@ -47,6 +37,7 @@ public class HashObjectOptions {
             default -> 
                 throw new IllegalArgumentException("Unknow object type: " + s);
         };
+        return type;
     }
 
     public Type getType() {
