@@ -19,7 +19,7 @@ public class AddCommand {
 
         try {
 
-            Repository repository = new Repository();
+            Repository repository = Repository.open();
 
             Path file = Path.of(args[1]);
 

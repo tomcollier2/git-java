@@ -44,6 +44,9 @@ public class Index {
             lines.add(entry.toString());
         }
 
+        /*
+        In real Git, the index is memory-mapped and rewritten as a binary structure for performance.
+        */
         Files.write(indexFile, lines);
 
     }

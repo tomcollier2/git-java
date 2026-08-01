@@ -6,16 +6,28 @@ public class Repository {
 
     private final Path root;
 
-    public Repository() {
-        this.root = Path.of(".skunk");
+    private final ObjectStore objectStore;
+
+    private final Index index;
+
+    public Repository(Path root) {
+
+        this.root = root;
+        
+        this.objectStore = new ObjectStore(root);
+        this.index = new Index(root);
+    }
+
+    public static Repository open() {
+        return new Repository(Path.of(".skunk"));
     }
 
     public ObjectStore getObjectStore() {
-        return new ObjectStore(root);
+        return objectStore;
     }
 
     public Index getIndex() {
-        return new Index(root);
+        return index;
     }
     
 }
