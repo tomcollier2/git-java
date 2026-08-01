@@ -3,7 +3,7 @@ package org.skunk.commands;
 import java.nio.file.Path;
 
 import org.skunk.git.Blob;
-import org.skunk.git.ObjectStore;
+import org.skunk.git.Repository;
 
 public class HashObjectCommand {
 
@@ -46,10 +46,9 @@ public class HashObjectCommand {
 
             Blob blob = Blob.fromFile(Path.of(args[1]));
 
-            ObjectStore store =
-                    new ObjectStore(Path.of(".skunk"));
+            Repository repository = new Repository();
 
-            String hash = store.write(blob);
+            String hash = repository.getObjectStore().write(blob);
 
             System.out.println(hash);
 
