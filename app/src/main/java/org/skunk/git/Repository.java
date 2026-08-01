@@ -1,17 +1,45 @@
 package org.skunk.git;
 
+import java.io.IOException;
 import java.nio.file.Path;
 
 public class Repository {
 
     private final Path root;
 
-    public Repository() {
-        this.root = Path.of(".skunk");
+    private final ObjectStore objectStore;
+
+    private final Index index;
+
+    public Repository(Path root) {
+
+        this.root = root;
+        
+        this.objectStore = new ObjectStore(root);
+        this.index = new Index(root);
+    }
+
+    public static Repository open() {
+        return new Repository(Path.of(".skunk"));
+    }
+
+    public void add(Path file) throws IOException {
+
+        Blob blob = Blob.fromFile(file);
+
+        String hash =
+                objectStore.hash(blob, true);
+
+        index.add(new IndexEntry(hash, file));
+
     }
 
     public ObjectStore getObjectStore() {
-        return new ObjectStore(root);
+        return objectStore;
+    }
+
+    public Index getIndex() {
+        return index;
     }
     
 }

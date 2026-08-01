@@ -43,7 +43,7 @@ public class HashObjectCommand {
 
             Blob blob = Blob.fromFile(options.getFile());
 
-            Repository repository = new Repository();
+            Repository repository = Repository.open();
 
             String hash = repository.getObjectStore().hash(blob, options.getWrite());
 
