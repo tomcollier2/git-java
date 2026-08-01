@@ -45,7 +45,7 @@ public class ObjectStore {
 
     }
 
-    public byte[] read(String hash) throws IOException {
+    public GitObject read(String hash) throws IOException {
         
         String directory = hash.substring(0, 2);
         String filename = hash.substring(2);
@@ -54,7 +54,9 @@ public class ObjectStore {
 
         byte[] compressed = Files.readAllBytes(objectFile);
 
-        return Decompression.decompress(compressed);
+        byte[] raw = Decompression.decompress(compressed);
+
+        return GitObject.parse(raw);
     }
     
 }

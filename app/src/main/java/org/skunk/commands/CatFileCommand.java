@@ -1,5 +1,6 @@
 package org.skunk.commands;
 
+import org.skunk.git.GitObject;
 import org.skunk.git.Repository;
 
 public class CatFileCommand {
@@ -48,29 +49,10 @@ public class CatFileCommand {
 
             Repository repository = new Repository();
 
-            byte[] object =
+            GitObject object =
                     repository.getObjectStore().read(args[1]);
 
-            int start = 0;
-
-            while (object[start] != 0) {
-                start++;
-            }
-
-            start++;
-
-            byte[] contents =
-                    new byte[object.length - start];
-
-            System.arraycopy(
-                    object,
-                    start,
-                    contents,
-                    0,
-                    contents.length
-            );
-
-            System.out.println(new String(contents));
+            System.out.println(new String(object.getContents()));
 
         } catch (Exception e) {
 
