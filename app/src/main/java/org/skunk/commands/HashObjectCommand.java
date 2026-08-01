@@ -1,9 +1,8 @@
 package org.skunk.commands;
 
-import java.nio.file.Path;
-
 import org.skunk.git.Blob;
 import org.skunk.git.Repository;
+import org.skunk.options.HashObjectOptions;
 
 public class HashObjectCommand {
 
@@ -33,22 +32,20 @@ public class HashObjectCommand {
 
         .skunk/objects/e6/9de29bb2d1d6434b8b29ae775ad8c2e48c5391
     */
-    public void execute(String[] args) {
+    public void execute(HashObjectOptions options) {
 
-        if (args.length < 2) {
-            System.out.println("Usage: hash-object <file>");
+        if (options.getFile() == null) {
+            System.out.println("Usage: skunk hash-object [-t <type>] [-w] <file>");
             return;
         }
 
-        Path file = Path.of(args[1]);
-
         try {
 
-            Blob blob = Blob.fromFile(Path.of(args[1]));
+            Blob blob = Blob.fromFile(options.getFile());
 
             Repository repository = new Repository();
 
-            String hash = repository.getObjectStore().write(blob);
+            String hash = repository.getObjectStore().write(blob, options.getWrite());
 
             System.out.println(hash);
 
