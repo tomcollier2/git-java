@@ -30,10 +30,9 @@ public class Index {
 
         for (int i = 0; i < lines.size(); i++) {
 
-            String line = lines.get(i);
-            String[] parts = line.split(" ", 2);
+            IndexEntry existing = IndexEntry.parse(lines.get(i));
 
-            if (parts[1].equals(entry.getPath().toString())) {
+            if (existing.getPath().equals(entry.getPath())) {
 
                 lines.set(i, entry.toString());
                 found = true;

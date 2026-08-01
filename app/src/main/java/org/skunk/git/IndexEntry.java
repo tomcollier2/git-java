@@ -15,6 +15,13 @@ public class IndexEntry {
         this.path = path;
     }
 
+    public static IndexEntry parse(String line) {
+
+        String[] parts = line.split(" ", 2);
+
+        return new IndexEntry(parts[0], Path.of(parts[1]));
+    }
+
     public String getHash() {
         return hash;
     }
