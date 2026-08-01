@@ -26,7 +26,24 @@ public class Index {
             lines = new ArrayList<>();
         }
 
-        lines.add(entry.toString());
+        boolean found = false;
+
+        for (int i = 0; i < lines.size(); i++) {
+
+            String line = lines.get(i);
+            String[] parts = line.split(" ", 2);
+
+            if (parts[1].equals(entry.getPath().toString())) {
+
+                lines.set(i, entry.toString());
+                found = true;
+                break;
+            }
+        }
+
+        if(!found) {
+            lines.add(entry.toString());
+        }
 
         Files.write(indexFile, lines);
 
