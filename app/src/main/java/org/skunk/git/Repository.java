@@ -13,5 +13,9 @@ public class Repository {
     public ObjectStore getObjectStore() {
         return new ObjectStore(root);
     }
+
+    public Index getIndex() {
+        return new Index(root);
+    }
     
 }
