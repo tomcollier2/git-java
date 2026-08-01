@@ -1,6 +1,8 @@
 package org.skunk;
 
+import org.skunk.commands.HashObjectCommand;
 import org.skunk.commands.InitCommand;
+import org.skunk.options.HashObjectOptions;
 
 public class App {
 
@@ -16,6 +18,10 @@ public class App {
 
             case "init":
                 new InitCommand().execute();
+                break;
+
+            case "hash-object":
+                new HashObjectCommand().execute(new HashObjectOptions(args));
                 break;
 
             default:
