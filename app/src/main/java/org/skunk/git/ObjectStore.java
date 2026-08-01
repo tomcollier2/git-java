@@ -5,6 +5,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 
 import org.skunk.util.Compression;
+import org.skunk.util.Decompression;
 import org.skunk.util.SHA1;
 
 public class ObjectStore {
@@ -15,7 +16,7 @@ public class ObjectStore {
         this.objects = repositoryRoot.resolve("objects");
     }
 
-    public String storeObject(GitObject object, boolean write) throws IOException {
+    public String hash(GitObject object, boolean write) throws IOException {
 
         byte[] data = object.getData();
 
@@ -42,6 +43,18 @@ public class ObjectStore {
 
         return hash;
 
+    }
+
+    public byte[] read(String hash) throws IOException {
+        
+        String directory = hash.substring(0, 2);
+        String filename = hash.substring(2);
+
+        Path objectFile = objects.resolve(directory).resolve(filename);
+
+        byte[] compressed = Files.readAllBytes(objectFile);
+
+        return Decompression.decompress(compressed);
     }
     
 }
