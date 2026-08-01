@@ -6,8 +6,8 @@ import java.nio.file.Path;
 
 public class Blob extends GitObject {
 
-    private Blob(byte[] data) {
-        super(data);
+    private Blob(byte[] contents) {
+        super(ObjectType.BLOB, contents);
     }
 
     public static Blob fromFile(Path file) throws IOException {
@@ -20,9 +20,7 @@ public class Blob extends GitObject {
 
     public static Blob fromBytes(byte[] contents) {
 
-        byte[] blob = buildObject(ObjectType.BLOB, contents);
-
-        return new Blob(blob);
+        return new Blob(contents);
 
     }
     

@@ -14,14 +14,14 @@ public class GitObject {
         }
     }
 
+    private final ObjectType type;
+    private final byte[] contents;
     protected final byte[] data;
 
-    protected GitObject(byte[] data) {
-        this.data = data;
-    }
-
-    public byte[] getData() {
-        return data;
+    protected GitObject(ObjectType type, byte[] contents) {
+        this.type = type;
+        this.contents = contents;
+        this.data = buildObject(type, contents);
     }
 
     protected static byte[] buildObject(ObjectType type, byte[] contents) { 
@@ -36,6 +36,70 @@ public class GitObject {
     
         return object; 
     
+    }
+
+    public static GitObject parse(byte[] rawObject) {
+
+        int index = 0;
+
+        while (rawObject[index] != ' ') {
+            index++;
+        }
+
+        String typeString = new String(rawObject, 0, index);
+        int lengthStart = index + 1;
+
+        index++;
+
+        while (index < rawObject.length && rawObject[index] != 0) {
+            index++;
+        }
+
+        if (index == rawObject.length) {
+            throw new IllegalArgumentException(
+                "Malformed Git object."
+            );
+        }
+
+        String length = new String(rawObject, lengthStart, index - lengthStart);
+
+        index++;
+
+        byte[] contents = new byte[rawObject.length - index];
+
+        System.arraycopy(rawObject, index, contents, 0, contents.length);
+
+        if (Integer.parseInt(length) != contents.length) { 
+            throw new IllegalArgumentException("Object size does not match header."); 
+        }
+
+        ObjectType type = ObjectType.valueOf(typeString.toUpperCase());
+
+        return switch (type) {
+
+            case BLOB -> Blob.fromBytes(contents);
+
+            default ->
+                    throw new IllegalArgumentException(
+                            "Unsupported object type"
+                    );
+        };
+    }
+
+    public byte[] getData() {
+        return data;
+    }
+
+    public ObjectType getType() {
+        return type;
+    }
+
+    public int getSize() {
+        return contents.length;
+    }
+
+    public byte[] getContents() {
+        return contents;
     }
     
 }

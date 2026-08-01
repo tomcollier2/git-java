@@ -1,5 +1,6 @@
 package org.skunk;
 
+import org.skunk.commands.CatFileCommand;
 import org.skunk.commands.HashObjectCommand;
 import org.skunk.commands.InitCommand;
 import org.skunk.options.HashObjectOptions;
@@ -22,6 +23,10 @@ public class App {
 
             case "hash-object":
                 new HashObjectCommand().execute(new HashObjectOptions(args));
+                break;
+
+            case "cat-file":
+                new CatFileCommand().execute(args);
                 break;
 
             default:
