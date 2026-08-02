@@ -47,7 +47,7 @@ public class CatFileCommand {
 
         try {
 
-            Repository repository = new Repository();
+            Repository repository = Repository.open();
 
             GitObject object =
                     repository.getObjectStore().read(args[1]);
