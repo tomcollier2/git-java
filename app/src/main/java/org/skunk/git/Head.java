@@ -55,5 +55,10 @@ public class Head {
 
         return Path.of(line.substring(5)).getFileName().toString();
     }
+
+    public void updateBranch(String branch) throws IOException {
+
+        Files.writeString(headFile, "ref: refs/heads/" + branch + "\n");
+    }
     
 }
