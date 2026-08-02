@@ -83,6 +83,8 @@ public class GitObject {
 
             case TREE -> Tree.fromBytes(contents);
 
+            case COMMIT -> Commit.fromBytes(contents);
+
             default ->
                     throw new IllegalArgumentException(
                             "Unsupported object type"
