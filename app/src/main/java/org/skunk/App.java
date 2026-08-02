@@ -6,6 +6,7 @@ import org.skunk.commands.CommitTreeCommand;
 import org.skunk.commands.HashObjectCommand;
 import org.skunk.commands.InitCommand;
 import org.skunk.commands.WriteTreeCommand;
+import org.skunk.options.CatFileOptions;
 import org.skunk.options.CommitTreeOptions;
 import org.skunk.options.HashObjectOptions;
 
@@ -30,7 +31,7 @@ public class App {
                 break;
 
             case "cat-file":
-                new CatFileCommand().execute(args);
+                new CatFileCommand().execute(new CatFileOptions(args));
                 break;
 
             case "add":

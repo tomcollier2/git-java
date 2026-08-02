@@ -2,6 +2,7 @@ package org.skunk.commands;
 
 import org.skunk.git.GitObject;
 import org.skunk.git.Repository;
+import org.skunk.options.CatFileOptions;
 
 public class CatFileCommand {
 
@@ -27,32 +28,32 @@ public class CatFileCommand {
     contents. Before displaying the contents, the object must be read from storage,
     decompressed, and the header must be removed.
 
-    The object header follows the format:
+    The command supports the same modes as Git:
 
-        "<type> <size>\0<contents>"
-
-    For example:
-
-        "blob 12\0Hello World!"
-
-    The command locates the null terminator separating the header from the contents,
-    discards everything before it, and prints the remaining bytes.
+        -t    Print the object's type (blob, tree, commit, etc.)
+        -s    Print the size of the object's contents in bytes.
+        -p    Pretty-print the object's contents.
     */
-    public void execute(String[] args) {
-
-        if (args.length != 2) {
-            System.out.println("Usage: cat-file <hash>");
-            return;
-        }
+    public void execute(CatFileOptions options) {
 
         try {
 
             Repository repository = Repository.open();
 
             GitObject object =
-                    repository.getObjectStore().read(args[1]);
+                    repository.readObject(options.getHash());
 
-            System.out.println(new String(object.getContents()));
+            switch (options.getMode()) {
+
+                case TYPE:
+                    System.out.println(object.getType());
+                    break;
+                case SIZE:
+                    System.out.println(object.getContentsSize());
+                    break;
+                case PRETTY:
+                    System.out.println(new String(object.getContents()));
+            }
 
         } catch (Exception e) {
 

@@ -100,7 +100,7 @@ public class GitObject {
         return type;
     }
 
-    public int getSize() {
+    public int getContentsSize() {
         return contents.length;
     }
 
