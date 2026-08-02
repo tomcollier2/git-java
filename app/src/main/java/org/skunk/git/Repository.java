@@ -6,10 +6,10 @@ import java.nio.file.Path;
 public class Repository {
 
     private final Path root;
-
     private final ObjectStore objectStore;
-
     private final Index index;
+    private final Head head;
+    private final Refs refs;
 
     public Repository(Path root) {
 
@@ -17,6 +17,9 @@ public class Repository {
         
         this.objectStore = new ObjectStore(root);
         this.index = new Index(root);
+
+        head = new Head(root);
+        refs = new Refs(root);
     }
 
     public static Repository open() {
@@ -58,6 +61,14 @@ public class Repository {
 
     public Index getIndex() {
         return index;
+    }
+
+    public Head getHead() {
+        return head;
+    }
+
+    public Refs getRefs() {
+        return refs;
     }
     
 }
