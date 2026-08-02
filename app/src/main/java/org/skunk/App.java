@@ -3,6 +3,7 @@ package org.skunk;
 import org.skunk.commands.AddCommand;
 import org.skunk.commands.BranchCommand;
 import org.skunk.commands.CatFileCommand;
+import org.skunk.commands.CheckoutCommand;
 import org.skunk.commands.CommitCommand;
 import org.skunk.commands.CommitTreeCommand;
 import org.skunk.commands.HashObjectCommand;
@@ -66,6 +67,10 @@ public class App {
                 } else {
                     command.execute(args[1]);
                 }
+                break;
+
+            case "checkout":
+                new CheckoutCommand().execute(args[1]);
                 break;
 
             default:

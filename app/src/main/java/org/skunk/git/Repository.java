@@ -120,6 +120,18 @@ public class Repository {
         refs.create(name, currentCommit);
     }
 
+    public void checkout(String branch) throws IOException {
+
+        if (!refs.exists(branch)) {
+
+            throw new IllegalArgumentException(
+                "Branch does not exist: " + branch
+            );
+        }
+
+        head.updateBranch(branch);
+    }
+
     public ObjectStore getObjectStore() {
         return objectStore;
     }
