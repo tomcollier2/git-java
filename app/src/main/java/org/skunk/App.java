@@ -2,9 +2,11 @@ package org.skunk;
 
 import org.skunk.commands.AddCommand;
 import org.skunk.commands.CatFileCommand;
+import org.skunk.commands.CommitTreeCommand;
 import org.skunk.commands.HashObjectCommand;
 import org.skunk.commands.InitCommand;
 import org.skunk.commands.WriteTreeCommand;
+import org.skunk.options.CommitTreeOptions;
 import org.skunk.options.HashObjectOptions;
 
 public class App {
@@ -37,6 +39,10 @@ public class App {
 
             case "write-tree":
                 new WriteTreeCommand().execute();
+                break;
+
+            case "commit-tree":
+                new CommitTreeCommand().execute(new CommitTreeOptions(args));
                 break;
 
             default:
