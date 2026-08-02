@@ -32,5 +32,33 @@ public class Commit extends GitObject {
         return fromBytes(builder.toString().getBytes(StandardCharsets.UTF_8));
 
     }
+
+    public String getParent() {
+
+        String contents = new String(getContents(), StandardCharsets.UTF_8);
+
+        for (String line : contents.split("\n")) {
+
+            if (line.startsWith("parent ")) {
+
+                return line.substring(7);
+            }
+        }
+
+        return null;
+    }
+
+    public String getMessage() {
+
+        String contents = new String(getContents(), StandardCharsets.UTF_8);
+
+        int seperator = contents.indexOf("\n\n");
+
+        if (seperator == -1) {
+            return "";
+        }
+
+        return contents.substring(seperator + 2);
+    }
     
 }
