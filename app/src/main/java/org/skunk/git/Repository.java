@@ -23,6 +23,10 @@ public class Repository {
         return new Repository(Path.of(".skunk"));
     }
 
+    public GitObject readObject(String hash) throws IOException {
+        return objectStore.read(hash);
+    }
+
     public void add(Path file) throws IOException {
 
         Blob blob = Blob.fromFile(file);
