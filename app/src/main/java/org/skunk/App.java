@@ -1,6 +1,7 @@
 package org.skunk;
 
 import org.skunk.commands.AddCommand;
+import org.skunk.commands.BranchCommand;
 import org.skunk.commands.CatFileCommand;
 import org.skunk.commands.CommitCommand;
 import org.skunk.commands.CommitTreeCommand;
@@ -55,6 +56,16 @@ public class App {
             
             case "log":
                 new LogCommand().execute();
+                break;
+
+            case "branch":
+                BranchCommand command = new BranchCommand();
+
+                if (args.length == 1) {
+                    command.execute();
+                } else {
+                    command.execute(args[1]);
+                }
                 break;
 
             default:

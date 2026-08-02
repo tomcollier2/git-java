@@ -3,7 +3,7 @@ package org.skunk.git;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
+import java.util.List;
 
 /*
 Represents the repository references (refs).
@@ -55,6 +55,26 @@ public class Refs {
     public void update(String branch, String hash) throws IOException {
 
         Files.writeString(headsDirectory.resolve(branch), hash);
+    }
+
+    public void create(String branch, String hash) throws IOException {
+
+        Path branchFile = headsDirectory.resolve(branch);
+
+        if (Files.exists(branchFile)) {
+
+            throw new IllegalArgumentException(
+                "Branch already exists: " + branch
+            );
+        }
+
+        Files.writeString(branchFile, hash);
+    }
+
+    public List<String> list() throws IOException {
+
+        return Files.list(headsDirectory)
+            .map(path -> path.getFileName().toString()).toList();
     }
     
 }

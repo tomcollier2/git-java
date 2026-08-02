@@ -111,6 +111,15 @@ public class Repository {
         
     }
 
+    public void createBranch(String name) throws IOException {
+
+        String currentBranch = head.currentBranch();
+
+        String currentCommit = refs.read(currentBranch);
+
+        refs.create(name, currentCommit);
+    }
+
     public ObjectStore getObjectStore() {
         return objectStore;
     }
