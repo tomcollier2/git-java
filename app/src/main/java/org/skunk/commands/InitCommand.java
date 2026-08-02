@@ -11,7 +11,9 @@ public class InitCommand {
             objects/
             refs/
                 heads/
+                    main
             HEAD
+            index
     
     The HEAD file should contain:
         ref: refs/heads/main
@@ -21,15 +23,21 @@ public class InitCommand {
         try {
 
             Path root = Path.of(".skunk");
+
             Path objects = root.resolve("objects");
             Path refs = root.resolve("refs");
             Path heads = refs.resolve("heads");
+
             Path headFile = root.resolve("HEAD");
+            Path main = heads.resolve("main");
+            Path index = root.resolve("index");
 
             Files.createDirectories(objects);
             Files.createDirectories(heads);
 
             Files.writeString(headFile, "ref: refs/heads/main\n");
+            Files.writeString(main, "");
+            Files.writeString(index, "");
 
             System.out.println("Initialised empty Skunk repository :)");
 

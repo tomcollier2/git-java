@@ -2,11 +2,13 @@ package org.skunk;
 
 import org.skunk.commands.AddCommand;
 import org.skunk.commands.CatFileCommand;
+import org.skunk.commands.CommitCommand;
 import org.skunk.commands.CommitTreeCommand;
 import org.skunk.commands.HashObjectCommand;
 import org.skunk.commands.InitCommand;
 import org.skunk.commands.WriteTreeCommand;
 import org.skunk.options.CatFileOptions;
+import org.skunk.options.CommitOptions;
 import org.skunk.options.CommitTreeOptions;
 import org.skunk.options.HashObjectOptions;
 
@@ -44,6 +46,10 @@ public class App {
 
             case "commit-tree":
                 new CommitTreeCommand().execute(new CommitTreeOptions(args));
+                break;
+
+            case "commit":
+                new CommitCommand().execute(new CommitOptions(args));
                 break;
 
             default:
