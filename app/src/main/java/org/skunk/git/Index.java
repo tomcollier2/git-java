@@ -34,14 +34,14 @@ public class Index {
 
             if (existing.getPath().equals(entry.getPath())) {
 
-                lines.set(i, entry.toString());
+                lines.set(i, entry.serialize());
                 found = true;
                 break;
             }
         }
 
         if(!found) {
-            lines.add(entry.toString());
+            lines.add(entry.serialize());
         }
 
         /*
@@ -67,6 +67,17 @@ public class Index {
         }
         
         return entries;
+    }
+
+    public void write(List<IndexEntry> entries) throws IOException {
+
+        List<String> lines = new ArrayList<>();
+
+        for (IndexEntry entry : entries) {
+            lines.add(entry.serialize());
+        }
+
+        Files.write(indexFile, lines);
     }
     
 }

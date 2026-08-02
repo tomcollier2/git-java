@@ -76,5 +76,10 @@ public class Refs {
         return Files.list(headsDirectory)
             .map(path -> path.getFileName().toString()).toList();
     }
+
+    public boolean exists(String branch) {
+
+        return Files.exists(headsDirectory.resolve(branch));
+    }
     
 }
