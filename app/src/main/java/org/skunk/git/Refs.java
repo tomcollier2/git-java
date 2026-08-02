@@ -3,7 +3,7 @@ package org.skunk.git;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
-
+import java.util.List;
 
 /*
 Represents the repository references (refs).
@@ -69,6 +69,12 @@ public class Refs {
         }
 
         Files.writeString(branchFile, hash);
+    }
+
+    public List<String> list() throws IOException {
+
+        return Files.list(headsDirectory)
+            .map(path -> path.getFileName().toString()).toList();
     }
     
 }
