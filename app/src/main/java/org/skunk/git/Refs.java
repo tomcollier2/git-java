@@ -56,5 +56,19 @@ public class Refs {
 
         Files.writeString(headsDirectory.resolve(branch), hash);
     }
+
+    public void create(String branch, String hash) throws IOException {
+
+        Path branchFile = headsDirectory.resolve(branch);
+
+        if (Files.exists(branchFile)) {
+
+            throw new IllegalArgumentException(
+                "Branch already exists: " + branch
+            );
+        }
+
+        Files.writeString(branchFile, hash);
+    }
     
 }
