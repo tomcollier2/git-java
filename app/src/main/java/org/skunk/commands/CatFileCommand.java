@@ -49,7 +49,7 @@ public class CatFileCommand {
                     System.out.println(object.getType());
                     break;
                 case SIZE:
-                    System.out.println(object.getSize());
+                    System.out.println(object.getContentsSize());
                     break;
                 case PRETTY:
                     System.out.println(new String(object.getContents()));
