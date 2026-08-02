@@ -69,7 +69,9 @@ public class GitObject {
 
         System.arraycopy(rawObject, index, contents, 0, contents.length);
 
-        if (Integer.parseInt(length) != contents.length) { 
+        int expectedSize = Integer.parseInt(length);
+
+        if (expectedSize != contents.length) { 
             throw new IllegalArgumentException("Object size does not match header."); 
         }
 
@@ -78,6 +80,8 @@ public class GitObject {
         return switch (type) {
 
             case BLOB -> Blob.fromBytes(contents);
+
+            case TREE -> Tree.fromBytes(contents);
 
             default ->
                     throw new IllegalArgumentException(

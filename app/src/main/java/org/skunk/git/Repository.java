@@ -34,6 +34,13 @@ public class Repository {
 
     }
 
+    public String writeTree() throws IOException {
+
+        Tree tree = Tree.fromIndex(index.read());
+
+        return objectStore.hash(tree, true);
+    }
+
     public ObjectStore getObjectStore() {
         return objectStore;
     }

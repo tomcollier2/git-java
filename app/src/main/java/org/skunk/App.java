@@ -4,6 +4,7 @@ import org.skunk.commands.AddCommand;
 import org.skunk.commands.CatFileCommand;
 import org.skunk.commands.HashObjectCommand;
 import org.skunk.commands.InitCommand;
+import org.skunk.commands.WriteTreeCommand;
 import org.skunk.options.HashObjectOptions;
 
 public class App {
@@ -32,6 +33,10 @@ public class App {
 
             case "add":
                 new AddCommand().execute(args);
+                break;
+
+            case "write-tree":
+                new WriteTreeCommand().execute();
                 break;
 
             default:

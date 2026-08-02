@@ -50,5 +50,23 @@ public class Index {
         Files.write(indexFile, lines);
 
     }
+
+    public List<IndexEntry> read() throws IOException {
+
+        List<IndexEntry> entries = new ArrayList<>();
+
+        if (Files.exists(indexFile)) {
+                
+            for (String line : Files.readAllLines(indexFile)) {
+
+                entries.add(
+                    IndexEntry.parse(line)
+                );
+
+            }
+        }
+        
+        return entries;
+    }
     
 }

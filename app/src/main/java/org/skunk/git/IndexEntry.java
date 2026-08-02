@@ -22,6 +22,10 @@ public class IndexEntry {
         return new IndexEntry(parts[0], Path.of(parts[1]));
     }
 
+    public String serialize() {
+        return hash + " " + path;
+    }
+
     public String getHash() {
         return hash;
     }
@@ -32,6 +36,6 @@ public class IndexEntry {
 
     @Override
     public String toString() {
-        return hash + " " + path;
+        return serialize();
     }
 }
