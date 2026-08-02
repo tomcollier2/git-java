@@ -1,6 +1,7 @@
 package org.skunk.git;
 
 import java.io.IOException;
+import java.nio.file.Files;
 import java.nio.file.Path;
 
 public class Repository {
@@ -128,8 +129,24 @@ public class Repository {
                 "Branch does not exist: " + branch
             );
         }
+        
+        String commitHash = refs.read(branch);
+        Commit commit = (Commit) readObject(commitHash);
 
+        restoreTree(commit.getTree());
         head.updateBranch(branch);
+    }
+
+    public void restoreTree(String treeHash) throws IOException {
+
+        Tree tree = (Tree) readObject(treeHash);
+
+        for (TreeEntry entry: tree.entries()) {
+
+            Blob blob = (Blob) readObject(entry.getHash());
+
+            Files.write(Path.of(entry.getName()), blob.getContents());
+        }
     }
 
     public ObjectStore getObjectStore() {
