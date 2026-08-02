@@ -6,6 +6,7 @@ import org.skunk.commands.CommitCommand;
 import org.skunk.commands.CommitTreeCommand;
 import org.skunk.commands.HashObjectCommand;
 import org.skunk.commands.InitCommand;
+import org.skunk.commands.LogCommand;
 import org.skunk.commands.WriteTreeCommand;
 import org.skunk.options.CatFileOptions;
 import org.skunk.options.CommitOptions;
@@ -50,6 +51,10 @@ public class App {
 
             case "commit":
                 new CommitCommand().execute(new CommitOptions(args));
+                break;
+            
+            case "log":
+                new LogCommand().execute();
                 break;
 
             default:
