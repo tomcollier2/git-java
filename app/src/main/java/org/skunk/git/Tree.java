@@ -1,6 +1,7 @@
 package org.skunk.git;
 
 import java.nio.charset.StandardCharsets;
+import java.util.ArrayList;
 import java.util.List;
 
 public class Tree extends GitObject {
@@ -36,6 +37,24 @@ public class Tree extends GitObject {
                        .getBytes(StandardCharsets.UTF_8)
         );
 
+    }
+
+    public List<TreeEntry> entries() {
+
+        List<TreeEntry> entries = new ArrayList<>();
+        String text = new String(getContents());
+
+        for(String line : text.split("\n")) {
+
+            if (line.isEmpty()) {
+                continue;
+            }
+
+            String[] parts = line.split(" ");
+            entries.add(new TreeEntry(parts[0], parts[1], parts[2]));
+        }
+
+        return entries;
     }
     
 }
