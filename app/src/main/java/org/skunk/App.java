@@ -59,7 +59,13 @@ public class App {
                 break;
 
             case "branch":
-                new BranchCommand().execute(args[1]);
+                BranchCommand command = new BranchCommand();
+
+                if (args.length == 1) {
+                    command.execute();
+                } else {
+                    command.execute(args[1]);
+                }
                 break;
 
             default:
