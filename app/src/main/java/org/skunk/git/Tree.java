@@ -9,6 +9,10 @@ public class Tree extends GitObject {
         super(ObjectType.TREE, contents);
     }
 
+    public static Tree fromBytes(byte[] contents) {
+        return new Tree(contents);
+    }
+    
     public static Tree fromIndex(List<IndexEntry> entries) {
 
         StringBuilder builder = new StringBuilder();
@@ -27,7 +31,7 @@ public class Tree extends GitObject {
 
         }
 
-        return new Tree(
+        return fromBytes(
                 builder.toString()
                        .getBytes(StandardCharsets.UTF_8)
         );
