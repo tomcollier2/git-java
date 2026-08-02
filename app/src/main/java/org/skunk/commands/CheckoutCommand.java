@@ -28,8 +28,7 @@ public class CheckoutCommand {
     selected branch, and any future commits will advance that branch.
 
     This simplified implementation assumes that the working directory can be safely
-    overwritten. It does not yet detect uncommitted changes, remove files that no
-    longer exist in the target branch, or support checking out individual commits
+    overwritten. It does not yet detect uncommitted changes or support checking out individual commits
     (detached HEAD).
     */
     public void execute(String branch) {

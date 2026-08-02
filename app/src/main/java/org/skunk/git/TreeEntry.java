@@ -1,5 +1,7 @@
 package org.skunk.git;
 
+import java.nio.file.Path;
+
 public class TreeEntry {
 
     private final String mode;
@@ -11,6 +13,11 @@ public class TreeEntry {
         this.mode = mode;
         this.name = name;
         this.hash = hash;
+    }
+
+    public IndexEntry toIndexEntry() {
+
+        return new IndexEntry(hash, Path.of(name));
     }
 
     public String getMode() {

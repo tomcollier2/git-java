@@ -3,6 +3,8 @@ package org.skunk.git;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.ArrayList;
+import java.util.List;
 
 public class Repository {
 
@@ -95,16 +97,14 @@ public class Repository {
     public String commit(String message) throws IOException {
 
         // Create tree
-        Tree tree = Tree.fromIndex(index.read());
-        String treeHash = objectStore.hash(tree, true);
+        String treeHash = writeTree();
 
         //Find previous commit
         String branch = head.currentBranch();
         String parent = refs.read(branch);
 
         //Create commit
-        Commit commit = Commit.create(treeHash, parent, message);
-        String commitHash = objectStore.hash(commit, true);
+        String commitHash = createCommit(treeHash, parent, message);
 
         //Move branch
         refs.update(branch, commitHash);
@@ -133,6 +133,7 @@ public class Repository {
         String commitHash = refs.read(branch);
         Commit commit = (Commit) readObject(commitHash);
 
+        clearTrackedFiles();
         restoreTree(commit.getTree());
         head.updateBranch(branch);
     }
@@ -140,12 +141,33 @@ public class Repository {
     public void restoreTree(String treeHash) throws IOException {
 
         Tree tree = (Tree) readObject(treeHash);
+        List<IndexEntry> indexEntries = new ArrayList<>();
+
 
         for (TreeEntry entry: tree.entries()) {
 
             Blob blob = (Blob) readObject(entry.getHash());
 
-            Files.write(Path.of(entry.getName()), blob.getContents());
+            Path file = Path.of(entry.getName());
+
+            if (file.getParent() != null) {
+
+                Files.createDirectories(file.getParent());
+            }
+
+            Files.write(file, blob.getContents());
+
+            indexEntries.add(entry.toIndexEntry());
+        }
+
+        index.write(indexEntries);
+    }
+
+    private void clearTrackedFiles() throws IOException {
+        
+        for (IndexEntry entry : index.read()) {
+
+            Files.deleteIfExists(entry.getPath());
         }
     }
 
