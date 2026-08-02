@@ -48,9 +48,9 @@ public class Repository {
         return objectStore.hash(tree, true);
     }
 
-    public String commitTree(String treeHash, String message) throws IOException {
+    public String createCommit(String treeHash, String parentHash, String message) throws IOException {
 
-        Commit commit = Commit.create(treeHash, message);
+        Commit commit = Commit.create(treeHash, parentHash, message);
 
         return objectStore.hash(commit, true);
     }

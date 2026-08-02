@@ -27,8 +27,11 @@ public class CommitTreeCommand {
     database, and the resulting hash is printed. This hash uniquely identifies the
     commit and can later be used to reference the recorded snapshot.
 
-    Unlike a full Git implementation, this command does not yet record parent
-    commits, author information, committer information, or timestamps.
+    Unlike the full commit command, this command does not update the current
+    branch reference. It only creates and stores a commit object.
+
+    Parent commits may be supplied explicitly, but branch movement is handled by
+    the higher-level commit command.
     */
     public void execute(CommitTreeOptions options) {
 
@@ -38,8 +41,9 @@ public class CommitTreeCommand {
                     Repository.open();
 
             String hash =
-                    repository.commitTree(
+                    repository.createCommit(
                             options.getTreeHash(),
+                            null,
                             options.getMessage()
                     );
 

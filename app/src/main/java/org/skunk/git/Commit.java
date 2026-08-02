@@ -14,12 +14,17 @@ public class Commit extends GitObject {
 
     public static Commit create(
         String treeHash,
+        String parentHash,
         String message
     ) {
 
         StringBuilder builder = new StringBuilder();
 
         builder.append("tree ").append(treeHash).append("\n");
+
+        if (parentHash != null) {
+            builder.append("parent ").append(parentHash).append("\n");
+        }
         builder.append("\n");
 
         builder.append(message);
