@@ -60,5 +60,19 @@ public class Commit extends GitObject {
 
         return contents.substring(seperator + 2);
     }
+
+    public String getTree() {
+
+        String contents = new String(getContents(), StandardCharsets.UTF_8);
+
+        for (String line : contents.split("\n")) {
+
+            if (line.startsWith("tree ")) {
+                return line.substring(5);
+            }
+        }
+
+        throw new IllegalStateException("Commit contains no tree.");
+    }
     
 }
