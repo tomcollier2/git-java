@@ -131,6 +131,13 @@ public class Repository {
         }
         
         String commitHash = refs.read(branch);
+
+        // Checkout for empty branches (no commits)
+        if (commitHash == null || commitHash.isEmpty()) {
+            head.updateBranch(branch);
+            return;
+        }
+
         Commit commit = (Commit) readObject(commitHash);
 
         clearTrackedFiles();
